@@ -1,5 +1,6 @@
 'use client'
 
+import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import { useState } from 'react'
 
@@ -35,9 +36,9 @@ export default function ObjectDetectionPage() {
 
       <main className="flex-1 p-5">
         {/* Header */}
-        <div className="bg-[#172B4D] shadow-md p-6 ">
+        <div className="bg-[#172B4D] shadow-md p-2 ">
           <h1 className="text-3xl font-bold text-[#A7EBF2] text-center">
-            Upload & Xử lý ảnh / video
+            <Header title={"Object Detection"} />
           </h1>
         </div>
         <div className='p-10'>

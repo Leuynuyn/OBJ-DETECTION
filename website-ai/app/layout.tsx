@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Object Detection",
   description: "A simple object detection app",
+  icons: {
+    icon: "/logo.png",
+  }
 };
 
 export default function RootLayout({
