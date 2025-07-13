@@ -42,7 +42,7 @@ export default function OperationHistoryPage() {
                         <p className="text-gray-500 italic">Chưa có kết quả nào</p>
                     ) : (
                         history.map((item) => (
-                        <div key={item.id} className="border rounded shadow p-4 bg-white">
+                        <div key={item.id} className="rounded shadow p-4 bg-white">
                             <h2 className="font-semibold">{item.fileName}</h2>
                             <p className="text-sm text-gray-400">{item.time}</p>
                             <p className="mt-2 text-gray-400 text-sm">
