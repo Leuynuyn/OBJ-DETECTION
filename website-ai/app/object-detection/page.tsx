@@ -3,6 +3,7 @@
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import { useState } from 'react'
+import { json } from 'stream/consumers'
 
 export default function ObjectDetectionPage() {
   const [file, setFile] = useState<File | null>(null)
@@ -19,12 +20,30 @@ export default function ObjectDetectionPage() {
 
   const handleSubmit = () => {
     if (!file) return alert('Vui lòng chọn một file!')
+
+    const detected = [
+      'Object: person - 98%',
+      'Object: car - 87%',
+      'Object: dog - 78%',
+    ]
+
     setTimeout(() => {
-      setResult([
-        'Object: person - 98%',
-        'Object: car - 87%',
-        'Object: dog - 78%',
-      ])
+      setResult(detected)
+
+      const currentHistory = JSON.parse(localStorage.getItem('detectionHistory') || '[]');
+
+      const newEntry = {
+        id: Date.now(),
+        fileName: file.name,
+        time: new Date().toLocaleString(),
+        result: detected,
+      }
+
+      const updatedHistory = [newEntry, ...currentHistory]
+
+      console.log(detected)
+
+      localStorage.setItem('detectionHistory', JSON.stringify(updatedHistory))
     }, 1000)
   }
 
