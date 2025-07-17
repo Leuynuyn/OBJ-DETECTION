@@ -2,74 +2,82 @@
 
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
-import { useState } from 'react'
-import { json } from 'stream/consumers'
+import { useEffect, useState } from 'react'
 
 export default function ObjectDetectionPage() {
   const [file, setFile] = useState<File | null>(null)
   const [result, setResult] = useState<string[]>([])
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [ip, setIp] = useState<string>('')
+
+  // Lấy IP của người dùng
+  useEffect(() => {
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => setIp(data.ip))
+      .catch(() => setIp('Unknown'))
+  }, [])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
     if (selectedFile) {
       setFile(selectedFile)
-      setImagePreview(URL.createObjectURL(selectedFile))
+      setResult([]) // reset result
     }
   }
 
   const handleSubmit = () => {
     if (!file) return alert('Vui lòng chọn một file!')
 
+    // Giả lập kết quả nhận diện
     const detected = [
       'Object: person - 98%',
       'Object: car - 87%',
       'Object: dog - 78%',
     ]
 
+    // Giả lập xử lý sau 1 giây
     setTimeout(() => {
       setResult(detected)
+      setImagePreview(URL.createObjectURL(file)) // hiển thị ảnh sau khi xử lý
 
-      const currentHistory = JSON.parse(localStorage.getItem('detectionHistory') || '[]');
+      const currentHistory = JSON.parse(localStorage.getItem('detectionHistory') || '[]')
 
       const newEntry = {
         id: Date.now(),
         fileName: file.name,
+        format: file.name.slice(file.name.lastIndexOf('.')),
         time: new Date().toLocaleString(),
+        action: 'detect object',
         result: detected,
+        ip: ip || 'Unknown',
       }
 
       const updatedHistory = [newEntry, ...currentHistory]
-
-      console.log(detected)
-
       localStorage.setItem('detectionHistory', JSON.stringify(updatedHistory))
     }, 1000)
   }
 
   return (
     <div className="flex min-h-screen bg-[#f4f6fa]">
-      <div className="w-60 shadow-lg ">
+      <div className="w-60 shadow-lg">
         <Sidebar />
       </div>
 
       <main className="flex-1 p-5">
-        {/* Header */}
-        <div className="bg-[#172B4D] shadow-md p-2 ">
-          <h1 className="text-3xl font-bold text-[#A7EBF2] text-center">
-            <Header title={"Object Detection"} />
-          </h1>
+        <div className="bg-[#172B4D] shadow-md p-2 mb-6">
+          <Header title="Object Detection" />
         </div>
-        <div className='p-10'>
-        {/* Upload Section */}
-        <div className="bg-white rounded-lg shadow p-6 borde mb-10">
+
+        <div className="p-6 bg-white rounded-lg shadow mb-8">
           <h2 className="text-xl font-semibold mb-4 text-[#172B4D]">Gửi ảnh hoặc video</h2>
 
-          {/* Custom upload box */}
-          <div className="border-2 border-dashed border-blue-400 p-8 rounded-lg mb-4 text-center">
-            <p className="text-gray-400 mb-4 text-sm">Kéo thả tệp vào đây hoặc chọn từ máy</p>
+          <div className="border-2 border-dashed border-blue-400 p-8 rounded-lg text-center">
+            <p className="text-gray-400 mb-4 text-sm">
+              Kéo thả tệp vào đây hoặc chọn từ máy
+            </p>
 
-            <div className=" items-center justify-center ">
+            <div className="flex flex-col items-center">
               <label
                 htmlFor="file-upload"
                 className="cursor-pointer border border-black px-4 py-1 bg-gray-200 text-black text-sm rounded hover:bg-gray-300 transition"
@@ -83,13 +91,11 @@ export default function ObjectDetectionPage() {
                 onChange={handleFileChange}
                 className="hidden"
               />
-
-              <span className="text-gray-400 text-sm  ml-[1%]">
-                {file ? file.name : 'No file chosen'}
+              <span className="text-gray-400 text-sm mt-2">
+                {file ? file.name : 'Chưa chọn tệp'}
               </span>
             </div>
 
-            {/* Nút xử lý nằm trong khung gạch */}
             <div className="mt-6">
               <button
                 onClick={handleSubmit}
@@ -101,9 +107,9 @@ export default function ObjectDetectionPage() {
           </div>
         </div>
 
-        {/* Result Section */}
+  
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4  text-[#172B4D]">Kết quả nhận diện</h2>
+          <h2 className="text-xl font-semibold mb-4 text-[#172B4D]">Kết quả nhận diện</h2>
 
           {imagePreview && (
             <div className="flex justify-center mb-6">
@@ -126,7 +132,6 @@ export default function ObjectDetectionPage() {
               </ul>
             )}
           </div>
-        </div>
         </div>
       </main>
     </div>
