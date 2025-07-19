@@ -115,12 +115,14 @@ def predict_img():
             ret, frame = cap.read()
             if not ret:
                 break
-            results = model(frame, save=True, save_dir=RUNS_DETECT_FOLDER, project=RUNS_DETECT_FOLDER)
+            # Chỉ detect, không lưu ảnh riêng lẻ
+            results = model(frame)
             res_plotted = results[0].plot()
             out.write(res_plotted)
         cap.release()
         out.release()
         feed_url = f"http://localhost:5000/video_feed?t={int(time.time())}"
+        print("Video saved to:", output_path)  # Debug
         return jsonify({'result_url': feed_url})
 
     return jsonify({'error': 'Unsupported file format'}), 400
