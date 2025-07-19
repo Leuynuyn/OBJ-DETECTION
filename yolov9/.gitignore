@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env
+
+# Flask
+instance/
+*.pyc
+*.pyo
+*.pyd
+.Python
+config.py
+
+# Project-specific
+uploads/
+static/
+*.jpg
+*.mp4
+*.pt
+*.webp
+*.avi
+*.mov
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
