@@ -34,15 +34,6 @@ export default function ObjectDetectionPage() {
       'Object: person - 98%',
       'Object: car - 87%',
       'Object: dog - 78%',
-      'Object: person - 98%',
-      'Object: car - 87%',
-      'Object: dog - 78%',
-      'Object: person - 98%',
-      'Object: car - 87%',
-      'Object: dog - 78%',
-      'Object: person - 98%',
-      'Object: car - 87%',
-      'Object: dog - 78%',
     ]
 
     // Giả lập xử lý sau 1 giây
