@@ -34,6 +34,15 @@ export default function ObjectDetectionPage() {
       'Object: person - 98%',
       'Object: car - 87%',
       'Object: dog - 78%',
+      'Object: person - 98%',
+      'Object: car - 87%',
+      'Object: dog - 78%',
+      'Object: person - 98%',
+      'Object: car - 87%',
+      'Object: dog - 78%',
+      'Object: person - 98%',
+      'Object: car - 87%',
+      'Object: dog - 78%',
     ]
 
     // Giả lập xử lý sau 1 giây
@@ -51,6 +60,7 @@ export default function ObjectDetectionPage() {
         action: 'detect object',
         result: detected,
         ip: ip || 'Unknown',
+        imageUrl: URL.createObjectURL(file),
       }
 
       const updatedHistory = [newEntry, ...currentHistory]
@@ -59,7 +69,7 @@ export default function ObjectDetectionPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#f4f6fa]">
+    <div className="flex min-h-screen bg-[#f4f6fa] ">
       <div className="w-60 shadow-lg">
         <Sidebar />
       </div>
@@ -135,5 +145,7 @@ export default function ObjectDetectionPage() {
         </div>
       </main>
     </div>
+
+
   )
 }
